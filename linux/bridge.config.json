@@ -1,11 +1,11 @@
 {
-  "$schema": "../bridge.config.schema.json",
+  "$schema": "../common/bridge.config.schema.json",
   "commands": {
     "feishu": {
-      "darwin": [
-        "/opt/homebrew/bin/feishu",
-        "/usr/local/bin/feishu",
+      "linux": [
         "$HOME/.local/bin/feishu",
+        "/usr/local/bin/feishu",
+        "/usr/bin/feishu",
         "feishu",
         "lark-cli"
       ]

@@ -5,11 +5,12 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
-$NativeDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+$WindowsDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+$NativeDir = Split-Path -Parent $WindowsDir
 $RepoRoot = Split-Path -Parent $NativeDir
 $ManifestPath = Join-Path $RepoRoot "manifest.json"
-$HostPath = Join-Path $NativeDir "tabctrl-bridge.cmd"
-$NativeManifestPath = Join-Path $NativeDir "com.tabctrl.bridge.installed.json"
+$HostPath = Join-Path $WindowsDir "tabctrl-bridge.cmd"
+$NativeManifestPath = Join-Path $WindowsDir "com.tabctrl.bridge.installed.json"
 $StoreExtensionId = "bniefocpdldneagigjlhbllgdjohmeie"
 
 function Get-ChromeExtensionIdFromKey([string]$Key) {
@@ -40,6 +41,10 @@ if (-not $ExtensionId) {
   throw "ExtensionId is required. Pass -ExtensionId <id> or keep a manifest.json key."
 }
 
+if (-not (Test-Path $HostPath)) {
+  throw "Host wrapper not found: $HostPath. Did you run sync-host.cjs?"
+}
+
 $nativeManifest = [ordered]@{
   name = "com.tabctrl.bridge"
   description = "TabCtrl native messaging bridge"
@@ -57,4 +62,6 @@ New-Item -Force -Path $keyPath | Out-Null
 Set-ItemProperty -Path $keyPath -Name "(default)" -Value $NativeManifestPath
 
 Write-Host "Registered com.tabctrl.bridge for extension $ExtensionId"
+Write-Host "Browser: $Chrome"
+Write-Host "Host wrapper: $HostPath"
 Write-Host "Manifest: $NativeManifestPath"

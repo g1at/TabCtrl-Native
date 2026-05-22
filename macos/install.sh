@@ -24,7 +24,7 @@ while [[ $# -gt 0 ]]; do
       shift
       ;;
     -h|--help)
-      echo "Usage: bash native/install-linux.sh [--browser chrome|chromium|edge] [--extension-id <id>] [--use-manifest-id]"
+      echo "Usage: bash native/macos/install.sh [--browser chrome|chromium|edge] [--extension-id <id>] [--use-manifest-id]"
       exit 0
       ;;
     *)
@@ -37,8 +37,8 @@ done
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 HOST_PATH="$SCRIPT_DIR/tabctrl-bridge.sh"
 
-if [[ "$(uname -s)" != "Linux" ]]; then
-  echo "install-linux.sh must be run on Linux." >&2
+if [[ "$(uname -s)" != "Darwin" ]]; then
+  echo "native/macos/install.sh must be run on macOS." >&2
   exit 1
 fi
 

@@ -8,7 +8,9 @@ const path = require("path");
 
 const HOST_NAME = "com.tabctrl.bridge";
 const STORE_EXTENSION_ID = "bniefocpdldneagigjlhbllgdjohmeie";
-const ROOT = path.resolve(__dirname, "..");
+// This script lives in native/common/ (source) and in native/<platform>/ as a
+// sync'd copy. Either way, two levels up from __dirname is the repo root.
+const ROOT = path.resolve(__dirname, "..", "..");
 
 function chromeExtensionIdFromKey(key) {
   const bytes = Buffer.from(String(key || ""), "base64");
@@ -95,14 +97,13 @@ function parseArgs(argv) {
 function usage() {
   return [
     "Usage:",
-    "  node native/generate-manifest.cjs --browser chrome --host-path /abs/path/tabctrl-bridge.sh --write-user",
-    "  node native/generate-manifest.cjs --browser edge --host-path /abs/path/tabctrl-bridge.sh --output /tmp/com.tabctrl.bridge.json",
+    "  node native/<platform>/generate-manifest.cjs --browser chrome --host-path /abs/path/tabctrl-bridge.sh --write-user",
     "",
     "Options:",
     "  --browser chrome|chromium|edge",
     `  --extension-id <id>       Defaults to Chrome Web Store id ${STORE_EXTENSION_ID}`,
     "  --use-manifest-id         Derive extension id from local manifest.json key instead",
-    "  --host-path <abs-path>    Defaults to native/tabctrl-bridge.sh on macOS/Linux",
+    "  --host-path <abs-path>    Defaults to <script-dir>/tabctrl-bridge.{cmd,sh}",
     "  --output <path>           Write manifest to this path",
     "  --write-user              Write to the browser's user-level NativeMessagingHosts directory",
     "  --print-user-path         Print the browser's user-level manifest path",

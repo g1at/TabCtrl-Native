@@ -1,5 +1,5 @@
 {
-  "$schema": "../bridge.config.schema.json",
+  "$schema": "../common/bridge.config.schema.json",
   "commands": {
     "feishu": {
       "win32": [
